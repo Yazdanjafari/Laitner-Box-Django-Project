@@ -1,0 +1,65 @@
+# Python-related files
+*.py[cod]           # Compiled Python files (bytecode)
+__pycache__/        # Python cache directories
+*.so                # Shared object files (C extensions)
+*.pyo               # Optimized Python files
+*.pyd               # Windows compiled files
+
+# Virtual environment
+env/                # Virtual environment folder (if named 'env')
+venv/               # Virtual environment folder (if named 'venv')
+pip-log.txt         # pip log file
+pip-delete-this-directory.txt
+
+# Django-related files
+*.sqlite3           # SQLite database files
+db.sqlite3-journal  # SQLite database journal files
+/media/             # User uploaded media files
+/staticfiles/       # Static files collected by Django
+/static/            # Static files directory
+.DS_Store           # macOS Finder files
+
+# Configuration files
+.env                # Environment variables
+*.env               # Other env files (if using dotenv or similar)
+.secret             # Secret or config files
+
+# IDEs and editors
+.vscode/            # Visual Studio Code settings
+.idea/              # PyCharm/IDEA project settings
+*.sublime-project   # Sublime Text project settings
+*.sublime-workspace
+*.swp               # Swap files (Vim)
+*.swo               # Vim backup files
+
+# Logs
+*.log               # Log files
+logs/               # Log directory
+
+# Test-related files
+.coverage           # Coverage report files
+.tox/               # Tox environments
+nosetests.xml       # nosetests output
+coverage.xml        # Coverage.py output
+*.cover             # Coverage reports
+.hypothesis/        # Hypothesis files
+pytest_cache/       # Pytest cache
+
+# Byte-compiled files
+*.egg               # Python egg files
+*.egg-info/         # Egg info directories
+dist/               # Distribution directories
+build/              # Build directories
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Heroku
+Procfile
+
+# Node modules (if using frontend tools like npm)
+node_modules/
+
+# Security
+secrets.json        # Any custom secret files

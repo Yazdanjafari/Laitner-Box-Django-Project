@@ -1,0 +1,13 @@
+@import url("C:\Users\ASUS\Desktop\Digian Free Website Template - Free-CSS.com\digian-html\fontsfarsi");
+@font-face {
+    font-family: samim;
+    src: url();
+    src: url(fontsfarsi/Samim-Bold.woff2) format('FontName-opentype'),
+         url(fontsfarsi/Samim-Bold.woff) format('woff'),
+         url(fontsfarsi/Samim-Bold.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+body{
+    font-family:samim;
+}
