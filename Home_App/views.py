@@ -1,3 +1,8 @@
 from django.shortcuts import render
 
-# Create your views here.
+def index_show (request):
+    return render(request, 'Home_App/index.html')
+
+def about_show (request):
+    return render(request, 'Home_App/about.html')
+

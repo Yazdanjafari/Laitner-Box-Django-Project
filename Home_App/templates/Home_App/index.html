@@ -1,0 +1,280 @@
+{% extends 'common.html' %}
+{% load static %}
+
+
+{% block style %}
+{% comment %} slider section {% endcomment %}
+.slider_section .detail-box {
+  text-align: center;
+  color: #7335b7;
+}
+
+.slider_section .carousel-indicators li {
+  background-color: #7335b7;
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+  opacity: 1;
+}
+{% endblock style %}
+
+
+{% block index_active %} 
+active
+{% endblock index_active %}
+
+
+{% block body %}
+    <!-- slider section -->
+    <section class="slider_section ">
+      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="container ">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="img-box">
+                    <img src="{% static "images/slider-img.png" %}" alt="">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="detail-box">
+                    <h1>
+                      جعبه لایتنر خود را بسازید
+                    </h1>
+                    <p>
+                      فلش کارت بساز، مرور کن و با دوستانت به اشتراک بگذار
+                    </p>
+                    <div class="btn-box">
+                      <a href="{% url 'Play_App:game' %}" class="btn1">
+                        شروع بازی
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item ">
+            <div class="container ">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="img-box">
+                    <img src="{% static "images/contact-img.png" %}" alt="" height="533px">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="detail-box">
+                    <h1>
+                      کلمات را به خاطر بسپارید
+                    </h1>
+                    <p>
+                      حافظه ی خود را به چالش بکشید و انها را به خاطر بسپارید
+                    </p>
+                    <div class="btn-box">
+                      <a href="{% url 'Play_App:game' %}" class="btn1">
+                        شروع بازی
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item ">
+            <div class="container ">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="img-box">
+                    <img src="{% static "images/ss.png" %}" alt="" height="533px">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="detail-box">
+                    <h1>
+                      یادگیری را برای خود راحت کنید
+                    </h1>
+                    <p>
+                        کلمات را به بهترین روش یاد بگیرید با راحت ترین راه 
+                    </p>
+                    <div class="btn-box">
+                      <a href="{% url 'Play_App:game' %}" class="btn1">
+                        شروع بازی
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ol class="carousel-indicators">
+          <li data-target="#customCarousel1" data-slide-to="0" class="active"></li>
+          <li data-target="#customCarousel1" data-slide-to="1"></li>
+          <li data-target="#customCarousel1" data-slide-to="2"></li>
+        </ol>
+      </div>
+
+    </section>
+    <!-- end slider section -->
+  </div>
+
+  <!-- service section -->
+  <section class="service_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+          خدمات ما
+        </h2>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-lg-3">
+          <div class="box">
+            <div class="img-box">
+              <img src="{% static "images/s1.png" %}" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+                سرگرم کننده
+              </h5>
+              <p>
+                یادگیری با جعبه لایتنر می‌تواند سرگرم کننده باشد زیرا فرآیند مرور کارت‌ها با چالش‌های ذهنی همراه است
+              </br></br>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="box">
+            <div class="img-box">
+              <img src="{% static "images/s2.png" %}" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+                یادگیری بلند مدت
+              </h5>
+              <p>
+                جعبه لایتنر باعث می‌شود اطلاعات به مرور زمان در حافظه بلند مدت شما ثبت شوند.
+              </br></br>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="box">
+            <div class="img-box">
+              <img src="{% static "images/s3.png" %}" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+                قابل حمل
+              </h5>
+              <p>
+              با نسخه‌های دیجیتالی جعبه لایتنر، فلش‌کارت‌های شما همیشه همراه‌تان هستند و می‌توانید هر جا که باشید به مطالعه بپردازید
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="box">
+            <div class="img-box">
+              <img src="{% static "images/s4.png" %}" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+                ساخت آسان
+              </h5>
+              <p>
+                ساخت فلش‌کارت‌های جدید در جعبه لایتنر بسیار آسان است و شما می‌توانید به راحتی کارت‌های جدید اضافه کنید.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- end service section -->
+
+  <!-- about section -->
+
+<section class="about_section layout_padding" dir="rtl">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="detail-box">
+                    <div class="heading_container">
+                        <h2>
+                            راهنما
+                        </h2>
+                    </div>
+                    <p style="text-align: right;">
+                        جعبه لایتنر سیستمی موثر برای به‌کارگیری روش تکرار فاصله‌دار در یادگیری مطالب با استفاده از فلش کارت است. جعبه لایتنر به طور پیش‌فرض ۵ خانه دارد. هر فلش کارت برای شروع یادگیری در خانه اول قرار می‌گیرد و پس از هر بار مرور موفق به خانه بعد منتقل می‌شود و در صورت فراموشی یا مرور نادرست به خانه اول بازگردانده می‌شود. فاصله زمانی مرور در خانه‌های ۱ تا ۵ به ترتیب ۱، ۲، ۴، ۸ و ۱۶ روز است. بدین معنی که کارتی که وارد خانه اول شده، یک روز بعد مرور می شود، کارتی که وارد خانه دوم شده ۲ روز بعد مرور می‌شود و …. پس از مرور درست کارت در خانه آخر (پنجم)، کارت از جعبه خارج شده و در بخش کارت‌های آموخته شده قرار می‌گیرد
+                    </p>
+                    <a href="{% url 'Home_App:about' %}" style="float: right;">
+                        نمایش بیشتر
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="img-box">
+                    <img src="{% static 'images/about-img.png' %}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+  <!-- end about section -->
+
+  <!-- case section -->
+
+  <section class="case_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+          یادگیری زبان 
+        </h2>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="box">
+            <div class="img-box">
+              <img src="{% static "images/slider-bg.jpg" %}" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+              پیگیری مطالب آموخته شده
+              </h5>
+              <p>
+                یکی از مزیت‌های خوب اپلیکیشن‌های جعبه لایتنر، یادآوری مطالب آموخته شده است
+              </p>
+              
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="box">
+            <div class="img-box">
+              <img src="{% static "images/image-2.png" %}" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+                قابل حمل بودن
+              </h5>
+              <p>  اولین و مهم‌ترین مزیت اپ‌های جعبه لایتنر، قابل حمل بودن آن است</p>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end case section -->
+  <!-- client section -->
+  <!-- end client section -->
+  <!-- contact section -->
+  <!-- end contact section -->
+
+{% endblock body %}

@@ -1,0 +1,68 @@
+{% extends 'common.html' %}
+{% load static %}
+
+{% block style %}
+.btn-primary {
+  color: #fff;
+  background-color: #7335b7;
+  border-color: #7335b7;
+}
+
+a {
+  color: blue;
+  text-decoration: none;
+  background-color: transparent;
+}
+{% endblock style %}
+
+{% block body %}
+  <!-- contact section -->
+
+  <div class="services_section">
+    <div class="container">
+      <h1 class="services_text"></h1>
+    </div>
+  </div>
+  <div class="login_section">
+     <div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h3 class="card-title text-center">ثبت نام</h3>
+            <form class="form-signin">
+
+              <div class="form-label-group" dir="rtl" style="text-align: right;">
+                <label for="inputEmail" style="font-size: 17px;">نام و نام خانوادگی :</label>
+                <input type="text" id="inputEmail" class="form-control" placeholder="مثال : یزدان جعفری" required autofocus>
+              </div>
+
+              <div class="form-label-group"  dir="rtl" style="text-align: right;">
+                <label for="inputEmail" style="font-size: 17px;">تلفن همراه :</label>
+                <input type="text" id="inputEmail" class="form-control" placeholder="مثال : 09123456789" required autofocus>
+              </div>
+
+              <div class="form-label-group"  dir="rtl" style="text-align: right;">
+                <label for="inputPassword" style="margin-bottom: 3px; font-size: 17px;">رمز ورود :</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="********" required>
+              </div>
+
+              <div class="form-label-group"  dir="rtl" style="text-align: right;">
+                <label for="inputPassword" style="margin-bottom: 3px; font-size: 17px;">تکرار رمز ورود :</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="********" required>
+              </div>
+
+              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">ثبت</button>
+              <hr class="my-4">
+              <a href="{% url 'Authentication_App:login' %}" style="float: right;  font-size: 0.8em;">قبلا ثبت نام کرده ام</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>
+
+  <!-- end contact section -->
+  {% endblock body %}
