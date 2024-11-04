@@ -5,6 +5,8 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from customauth.models import MyUser
 
 admin.site.site_header = "مدیریت وب ابلیکیشن لایتنر باکس"
+admin.site.site_title = "مدیریت وب ابلیکیشن لایتنر باکس"
+admin.site.index_title = "LEITNER BOX"
 
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label="رمز عبور", widget=forms.PasswordInput)

@@ -5,19 +5,6 @@ COLOR_CHOICE = [
         ('#7335b7', 'بنفش'),
     ]
 
-class Font(models.Model):
-    CHOICE = [
-        ('فونت پرستو', 'فونت پرستو'),
-        ('فونت ساحل', 'فونت ساحل'),
-        ('فونت صمیم', 'فونت صمیم'),
-        ('(پیشنهاد) فونت تنها', '(پیشنهاد) فونت تنها'),
-        ('فونت وزیر', 'فونت وزیر'),
-        ('فونت یکان', 'فونت یکان'),
-    ]
-    font = models.CharField(choices=CHOICE, max_length=50, verbose_name="فونت")
-    class Meta:
-        verbose_name_plural = "فونت‌ها (صفحه اصلی)"
-
 
 class FirstPageText(models.Model):
     big_title_1 = models.CharField(max_length=55, verbose_name="متن اصلی 1")

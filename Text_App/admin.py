@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Font, FirstPageText, BenfitText, GuideText, LearningEnglishText, GuideInfo
+from .models import FirstPageText, BenfitText, GuideText, LearningEnglishText, GuideInfo
 
 class ReadOnlyAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
@@ -7,11 +7,6 @@ class ReadOnlyAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
-
-
-@admin.register(Font)
-class FontAdmin(ReadOnlyAdmin):
-    list_display = ('id', 'font',)
 
 @admin.register(FirstPageText)
 class FirstPageTextAdmin(ReadOnlyAdmin):
