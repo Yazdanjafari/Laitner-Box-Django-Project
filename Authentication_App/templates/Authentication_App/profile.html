@@ -1,0 +1,309 @@
+{% extends 'common.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jalali-datepicker/1.3.4/jalali-datepicker.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jalali-datepicker/1.3.4/jalali-datepicker.min.js"></script>
+{% endblock head %}
+
+{% block style %}
+.btn-primary {
+  color: #fff;
+  background-color: #7335b7;
+  border-color: #7335b7;
+}
+
+a {
+  color: blue;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+{% comment %} for birthday inputs {% endcomment %}
+  
+.form-label-group .input-row {
+  display: flex;
+  gap: 10px; /* Adds space between inputs */
+  justify-content: center;
+}
+
+.form-label-group .input-row input {
+  width: 100px; /* Adjust width as needed */
+  text-align: center; /* Center-align the text in inputs */
+}
+
+.profile-container img {
+  width: 150px; /* Fixed width */
+  height: 150px; /* Fixed height to maintain aspect ratio */
+  object-fit: cover; /* Ensures the image covers the circle */
+  border-radius: 50%; /* Makes the image circular */
+}
+{% endblock style %}
+
+{% block body %}
+<!-- contact section -->
+
+<div class="services_section">
+  <div class="container">
+    <h1 class="services_text"></h1>
+  </div>
+</div>
+
+{% if request.user.profile_picture %}
+  <div class="profile-container text-center">
+    <img src="{{ request.user.profile_picture.url }}" class="rounded-circle mb-3" alt="Avatar" />
+    <h5 class="mb-2"><strong>{{ request.user.full_name }}</strong></h5>
+    <p class="text-muted">{{ request.user.phone_number }}</p>
+  </div>
+{% endif %}
+
+
+<div class="login_section">
+    <div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <h3 class="card-title text-center">پنل کاربری</h3>
+          <form class="form-signin" method="post"  enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-label-group" dir="rtl" style="text-align: right;">
+              <label for="inputEmail" style="font-size: 17px;">نام و نام خانوادگی :</label>
+              <input type="text" id="inputEmail" class="form-control" placeholder="{{ request.user.full_name }}" disabled>
+            </div>
+
+            <div class="form-label-group"  dir="rtl" style="text-align: right;">
+              <label for="inputEmail" style="font-size: 17px;">تلفن همراه :</label>
+              <input type="text" id="inputEmail" class="form-control" placeholder="{{ request.user.phone_number }}" disabled>
+            </div>
+            
+
+            {% if request.user.gender %}
+              <div class="form-label-group"  dir="rtl" style="text-align: right;">
+                <label for="inputEmail" style="font-size: 17px;">جنسیت :</label>
+                <input type="text" name="gender" id="inputEmail" class="form-control" placeholder="{{ request.user.gender }}" disabled>
+              </div>            
+            
+            {% else %}
+              <div class="form-label-group" dir="rtl" style="text-align: right;">
+                <label for="inputEmail" style="font-size: 17px;">
+                    جنسیت : <span style="color: red;">(اختیاری)</span>
+                  </label>
+                  
+                  <!-- Radio buttons for gender choice -->
+                  <div style="margin-bottom: 10px;">
+                    <div>
+                      <input type="radio" name="gender" id="male" name="gender" value="آقا">
+                      <label for="male">آقا</label>
+                    </div>
+                    <div>
+                      <input type="radio" name="gender" id="female" name="gender" value="خانم">
+                      <label for="female">خانم</label>
+                    </div>
+                    <div>
+                      <input type="radio" name="gender" id="female" name="gender" value="سایر موارد">
+                      <label for="female">سایر موارد</label>
+                    </div>
+                  </div>
+              </div>                
+            {% endif %}
+
+
+            {% if request.user.date_of_birth %}
+              <div class="form-label-group" dir="rtl" style="text-align: right;">
+                <label for="date" style="font-size: 17px;">
+                  تاریخ تولد :
+                </label>
+                <div class="input-row">
+                  <div class="input-row">
+                    <input type="text" name="day" id="day" class="form-control" placeholder="{{ request.user.date_of_birth|date:'d' }}" disabled>
+                    <input type="text" name="month" id="month" class="form-control" placeholder="{{ request.user.date_of_birth|date:'m' }}" disabled>
+                    <input type="text" name="date" id="date" class="form-control" autofocus placeholder="{{ request.user.date_of_birth|date:'Y' }}" disabled>              
+                  </div>
+                <div id="notification"></div>
+              </div>            
+            
+            {% else %}
+              <div class="form-label-group" dir="rtl" style="text-align: right;">
+                <label for="date" style="font-size: 17px;">
+                  تاریخ تولد : <span style="color: red;">(اختیاری)</span>
+                </label>
+                <div class="input-row">
+                  <div class="input-row">
+                    <input type="text" name="day" id="day" class="form-control" placeholder="روز" onchange="validateDay()">
+                    <input type="text" name="month" id="month" class="form-control" placeholder="ماه" onchange="validateMonth()">
+                    <input type="text" name="date" id="date" class="form-control" placeholder="سال" autofocus onchange="validateYear()">              
+                  </div>
+                <div id="notification"></div>
+              </div>
+            {% endif %}
+
+
+            {% if request.user.email %}
+              <div class="form-label-group"  dir="rtl" style="text-align: right;">
+                <label for="inputEmail" style="font-size: 17px;">ایمیل :</label>
+                <input type="text" name="email" id="inputEmail" class="form-control" placeholder="{{ request.user.email }}" autofocus disabled>
+              </div>
+            {% else %}
+              <div class="form-label-group"  dir="rtl" style="text-align: right;">
+                <label for="inputEmail" style="font-size: 17px;">ایمیل : <span style="color: red;">(اختیاری)</span></label>
+                <input type="text" name="email" id="inputEmail" class="form-control" placeholder="..." autofocus>
+              </div>
+            {% endif %}
+            
+            {% if request.user.country %}
+            <div class="form-label-group"  dir="rtl" style="text-align: right;">
+              <label for="country" style="font-size: 17px;">کشور :</label>
+              <input type="text" name="country" id="country" class="form-control" value="ایران" placeholder="{{ request.user.country }}" autofocus disabled>
+            </div>
+            {% else %}
+            <div class="form-label-group"  dir="rtl" style="text-align: right;">
+              <label for="country" style="font-size: 17px;">کشور : <span style="color: red;">(اختیاری)</span></label>
+              <input type="text" name="country" id="country" class="form-control" value="ایران" placeholder="..." autofocus>
+            </div>
+            {% endif %}
+
+            {% if request.user.state %}
+            <div class="form-label-group"  dir="rtl" style="text-align: right;">
+              <label for="state" style="font-size: 17px;">استان :</label>
+              <input type="text" name="state" id="state" class="form-control" placeholder="{{ request.user.state }}" autofocus disabled>
+            </div>
+            {% else %}
+            <div class="form-label-group"  dir="rtl" style="text-align: right;">
+              <label for="state" style="font-size: 17px;">استان : <span style="color: red;">(اختیاری)</span></label>
+              <input type="text" name="state" id="state" class="form-control" placeholder="..." autofocus>
+            </div>
+            {% endif %}            
+            
+            {% if request.user.city %}
+            <div class="form-label-group"  dir="rtl" style="text-align: right;">
+              <label for="city" style="font-size: 17px;">شهر :</label>
+              <input type="text" name="" id="city" class="form-control" placeholder="{{ request.user.city }}" autofocus disabled>
+            </div>
+            {% else %}
+            <div class="form-label-group"  dir="rtl" style="text-align: right;">
+              <label for="city" style="font-size: 17px;">شهر : <span style="color: red;">(اختیاری)</span></label>
+              <input type="text" name="city" id="city" class="form-control" placeholder="..." autofocus>
+            </div>
+            {% endif %}            
+
+            <div class="form-group" dir="rtl" style="text-align: right;">
+              <label for="profileImage" style="font-size: 17px;">
+                پروفایل : <span style="color: red;">(اختیاری)</span>
+              </label>
+              <input type="file" name="profile_picture" id="profile_picture" class="form-control">
+              {% if request.user.profile_picture %}
+                <p style="float: right;  font-size: 0.7em; color: green;">شما قبلا عکس پروفایل انتخاب کرده اید</p>
+                <br>
+              {% endif %}
+            </div>
+          
+            
+            <div class="form-label-group"  dir="rtl" style="text-align: right;">
+              <label for="inputPassword" style="margin-bottom: 3px; font-size: 17px;">رمز ورود :</label>
+              <input type="password" name="" id="inputPassword" class="form-control" placeholder="********" disabled>
+            </div>
+
+            <br>
+            <button class="btn btn-lg btn-success btn-block text-uppercase" type="submit" name="">ثبت</button>
+            <div class="col-13">
+              <a href="{% url 'Authentication_App:logout' %}" id="confirm-link" class="btn btn-lg btn-danger btn-block text-uppercase">خروج از حساب</a>
+            </div>
+            <br>
+            <p style="float: center; text-align: center; font-size: 0.7em; color: gray;">درصورتی که اطلاعات شما اشتباه ثبت شده نیز با پشتیبانی تماس بگیرید</p>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+
+<!-- end contact section -->
+
+
+{% endblock body %}
+
+
+
+{% block js %}
+function updateFileName() {
+  const input = document.getElementById('profileImage');
+  const label = input.nextElementSibling;
+
+  if (input.files.length > 0) {
+    label.textContent = 'تصویر انتخاب شد'; // Change label text to "تصویر با موفقیت انتخاب شد"
+    label.style.textAlign = 'left'; // Ensure text is LTR
+  } else {
+      label.textContent = 'انتخاب تصویر'; // Reset if no file is chosen
+      label.style.textAlign = 'left'; // Ensure text is LTR
+  }
+}  
+
+// Validate year input (1300-1400)
+function validateYear() {
+  const year = parseInt(document.getElementById("date").value, 10);
+  if (isNaN(year) || year < 1300 || year > 1400) {
+    alert("سال باید بین 1300 و 1400 باشد.");
+    document.getElementById("date").value = ""; // Clear input if invalid
+  }
+}
+
+// Validate month input (1-12)
+function validateMonth() {
+  const month = parseInt(document.getElementById("month").value, 10);
+  if (isNaN(month) || month < 1 || month > 12) {
+    alert("ماه باید بین 1 و 12 باشد.");
+    document.getElementById("month").value = ""; // Clear input if invalid
+  }
+}
+
+// Validate day input based on month
+function validateDay() {
+  const month = parseInt(document.getElementById("month").value, 10);
+  const day = parseInt(document.getElementById("day").value, 10);
+
+  if (isNaN(day) || isNaN(month)) {
+    alert("لطفا ابتدا ماه را وارد کنید.");
+    document.getElementById("day").value = ""; // Clear input if month is missing
+    return;
+  }
+
+  if (month >= 1 && month <= 6) {
+    if (day < 1 || day > 31) {
+      alert("عدد روز تولد باید بین 1 و 31 باشد.");
+      document.getElementById("day").value = ""; // Clear input if invalid
+    }
+  } else if (month >= 7 && month <= 12) {
+    if (day < 1 || day > 30) {
+      alert("عدد روز تولد باید بین 1 و 30 باشد.");
+      document.getElementById("day").value = ""; // Clear input if invalid
+    }
+  } else {
+    alert("لطفا ماه معتبر وارد کنید.");
+    document.getElementById("day").value = ""; // Clear input if month is invalid
+  }
+}
+
+document.getElementById('confirm-link').addEventListener('click', function(event) {
+  event.preventDefault(); // Prevent the default link behavior
+  Swal.fire({
+      title: 'آیا مطمئن هستید؟',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'بله',
+      cancelButtonText: 'خیر'
+  }).then((result) => {
+      if (result.isConfirmed) {
+          // If user confirms, navigate to the link
+          window.location.href = event.target.href;
+      }
+  });
+});
+{% endblock js %}
+  

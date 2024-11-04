@@ -30,32 +30,38 @@ a {
         <div class="card card-signin my-5">
           <div class="card-body">
             <h3 class="card-title text-center">ثبت نام</h3>
-            <form class="form-signin">
+              <form id="signup-form" method="post">
+              {% csrf_token %}
 
               <div class="form-label-group" dir="rtl" style="text-align: right;">
                 <label for="inputEmail" style="font-size: 17px;">نام و نام خانوادگی :</label>
-                <input type="text" id="inputEmail" class="form-control" placeholder="مثال : یزدان جعفری" required autofocus>
+                <input type="text" name="full_name" id="full_name" class="form-control" placeholder="مثال : یزدان جعفری" required autofocus>
               </div>
 
               <div class="form-label-group"  dir="rtl" style="text-align: right;">
                 <label for="inputEmail" style="font-size: 17px;">تلفن همراه :</label>
-                <input type="text" id="inputEmail" class="form-control" placeholder="مثال : 09123456789" required autofocus>
+                <input type="text" name="phone_number" id="phone_number" class="form-control" placeholder="مثال : 09123456789" minlength="11" maxlength="11" required autofocus>
               </div>
 
               <div class="form-label-group"  dir="rtl" style="text-align: right;">
                 <label for="inputPassword" style="margin-bottom: 3px; font-size: 17px;">رمز ورود :</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="********" required>
+                <input type="password" name="password1" id="password1" class="form-control" placeholder="********" minlength="8" required>
               </div>
 
               <div class="form-label-group"  dir="rtl" style="text-align: right;">
                 <label for="inputPassword" style="margin-bottom: 3px; font-size: 17px;">تکرار رمز ورود :</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="********" required>
+                <input type="password" name="password2" id="password2" class="form-control" placeholder="********" minlength="8" required>
               </div>
 
-              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">ثبت</button>
+              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" id="signup-btn">ثبت</button>
               <hr class="my-4">
               <a href="{% url 'Authentication_App:login' %}" style="float: right;  font-size: 0.8em;">قبلا ثبت نام کرده ام</a>
+            
             </form>
+            {% if response %}
+                <div id="responseMessage" style="display:none;">{{ response.0 }}</div>
+            {% endif %}
+
           </div>
         </div>
       </div>
@@ -64,5 +70,71 @@ a {
     </div>
   </div>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
   <!-- end contact section -->
   {% endblock body %}
+
+
+{% block js %}
+$(document).ready(function() {
+  $('#phone_number').on('change', function() {
+      $.ajax({
+          type: 'GET',
+          url: '{% url "Authentication_App:singup_check" %}',
+          data: { phone_number: $('#phone_number').val() },
+          success: function(data) {
+              if (data.is_taken) {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'خطا',
+                      text: 'این شماره تلفن قبلاً ثبت شده است.'
+                  });
+              }
+          }
+      });
+  });
+
+  $('#signup-form').on('submit', function(event) {  
+      event.preventDefault(); 
+
+      $.ajax({
+          type: 'POST',
+          url: '{% url "Authentication_App:signup" %}', 
+          data: {
+              phone_number: $('#phone_number').val(),
+              password1: $('#password1').val(),
+              password2: $('#password2').val(),
+              full_name: $('#full_name').val(),
+              csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+          },
+          success: function(data) {
+              if (data.error) {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'خطا',
+                      text: data.error
+                  });
+              } else {
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'موفقیت',
+                      text: data.success 
+                  }).then(() => {
+                      window.location.href = '/';
+                  });
+              }
+          },
+          error: function(xhr) {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'خطا',
+                  text: 'رمز عبور ها مطابقت ندارند'
+              });
+          }
+      });
+  });
+});
+{% endblock js %}
+  

@@ -30,15 +30,16 @@ a {
         <div class="card card-signin my-5">
           <div class="card-body">
             <h3 class="card-title text-center">وارد شدن</h3>
-            <form class="form-signin">
+            <form class="form-signin" method="post">
+              {% csrf_token %}
               <div class="form-label-group"  dir="rtl" style="text-align: right;">
                 <label for="inputEmail" style="font-size: 17px;">تلفن همراه</label>
-                <input type="text" id="inputEmail" class="form-control" placeholder="مثال : 09123456789" required autofocus>
+                <input type="text" id="inputEmail" name="phone_number" class="form-control" placeholder="مثال : 09123456789" minlength="11" maxlength="11" required autofocus>
               </div>
 
               <div class="form-label-group"  dir="rtl" style="text-align: right;">
                 <label for="inputPassword" style="margin-bottom: 3px; font-size: 17px;">رمز ورود</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="********" required>
+                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="********" minlength="8" required>
               </div>
 
               <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">ثبت</button>

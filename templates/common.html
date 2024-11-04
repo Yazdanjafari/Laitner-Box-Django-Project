@@ -28,6 +28,12 @@
   <!-- responsive style -->
   <link href="{% static 'css/responsive.css' %}" rel="stylesheet"/>
 
+
+{% block head %}
+  
+{% endblock head %}
+  
+
 <style>
   @font-face {
     font-family: yekan;
@@ -75,7 +81,7 @@
           <nav class="navbar navbar-expand-lg custom_nav-container ">
             <a class="navbar-brand" href="{% url 'Home_App:index' %}">
               <span>
-                Leitner Box
+                LEITNER BOX
               </span>
             </a>
   
@@ -97,11 +103,18 @@
                 <li class="nav-item {% block word_active %} {% endblock word_active %}">
                   <a class="nav-link" href="{% url 'Play_App:add_word' %}">اضافه کردن کلمات</a>           
                 </li>
+                {% if user.is_superuser %}
+                <li class="nav-item">
+                  <a class="nav-link" href="/admin">پنل ادمین</a>           
+                </li>   
+                {% endif %}             
               </ul>
               <div class="quote_btn-container">
-                <a href="{% url 'Authentication_App:login' %}" class="quote_btn">
-                  ساخت حساب کاربری
-                </a>
+                {% if request.user.is_authenticated %}
+                  <a href="{% url 'Authentication_App:profile' %}" class="quote_btn">{{ request.user.full_name }}</a>
+                {% else %}
+                  <a href="{% url 'Authentication_App:login' %}" class="quote_btn">حساب کاربری</a>
+                {% endif %}              
               </div>
             </div>
           </nav>
