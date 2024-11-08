@@ -1,0 +1,54 @@
+{% extends 'common.html' %}
+{% load static %}
+
+{% block style %}
+{% comment %} slider section {% endcomment %}
+.slider_section .detail-box {
+  text-align: center;
+  color: #7335b7;
+}
+
+.slider_section .carousel-indicators li {
+  background-color: #7335b7;
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+  opacity: 1;
+}
+{% endblock style %}
+
+{% block body %}
+<section class="slider_section ">
+    <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="container ">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="img-box">
+                  <img src="{% static "images/404.png" %}" alt="">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="detail-box">
+                    <h1>
+                      صفحه مورد نظر یافت نشد 
+                    </h1>
+                    <p>
+                        پیشنهاد میشود به صفحه اصلی بازگردید
+                    </p>                    
+                  <div class="btn-box">
+                    <a href="{% url 'Home_App:index' %}" class="btn1">
+                      صفحه اصلی
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+{% endblock body %}

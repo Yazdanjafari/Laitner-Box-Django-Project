@@ -16,6 +16,60 @@
   border-radius: 100%;
   opacity: 1;
 }
+
+.btn1 {
+  display: inline-block;
+  padding: 10px 20px; /* Padding for the button */
+  background-color: #007bff; /* Background color */
+  color: white; /* Text color */
+  text-align: center; /* Center text */
+  border-radius: 5px; /* Rounded corners */
+  text-decoration: none; /* Remove underline */
+  transition: background-color 0.3s; /* Smooth background change on hover */
+}
+
+{% comment %} Responsive Setting {% endcomment %}
+
+/* Hover effect */
+.btn1:hover {
+  background-color: #0056b3; /* Darker background on hover */
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .btn1 {
+      width: 100%; /* Full width on mobile */
+      font-size: 18px; /* Larger font size for better readability */
+      padding: 15px; /* More padding for a bigger touch area */
+  }
+}
+
+/* Default styles for mobile devices */
+.responsive-title {
+    font-size: 24px; /* Mobile font size */
+}
+
+.responsive-text {
+    font-size: 16px; /* Mobile font size */
+}
+
+/* Styles for desktop devices */
+@media (min-width: 768px) {
+    .responsive-title {
+        font-size: 36px; /* Desktop font size */
+    }
+
+    .responsive-text {
+        font-size: 20px; /* Desktop font size */
+    }
+}
+
+.responsive-img {
+  width: 100%;
+  height: auto; 
+  max-height: 533px; 
+}
+
 {% endblock style %}
 
 
@@ -40,16 +94,22 @@ active
               </div>
               <div class="col-md-6">
                 <div class="detail-box">
-                    <h1>
+                    <h1 class="responsive-title">
                       {{ i.big_title_1 }}
                     </h1>
-                    <p>
+                    <p class="responsive-text">
                       {{ i.small_title_1 }}
                     </p>                    
                   <div class="btn-box">
+                    {% if request.user.is_authenticated %}
                     <a href="{% url 'Play_App:game' %}" class="btn1">
                       شروع بازی
                     </a>
+                    {% else %}
+                    <a class="btn1" onclick=RegisterNotification()>
+                      شروع بازی
+                    </a>
+                    {% endif %}
                   </div>
                 </div>
               </div>
@@ -61,21 +121,27 @@ active
             <div class="row">
               <div class="col-md-6">
                 <div class="img-box">
-                  <img src="{% static "images/contact-img.png" %}" alt="" height="533px">
+                  <img src="{% static "images/contact-img.png" %}" alt="" class="responsive-img" height="533px">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="detail-box">
-                    <h1>
+                    <h1 class="responsive-title">
                       {{ i.big_title_2 }}
                     </h1>
-                    <p>
+                    <p class="responsive-text">
                       {{ i.small_title_2 }}
                     </p>
                   <div class="btn-box">
+                    {% if request.user.is_authenticated %}
                     <a href="{% url 'Play_App:game' %}" class="btn1">
                       شروع بازی
                     </a>
+                    {% else %}
+                    <a class="btn1" onclick=RegisterNotification()>
+                      شروع بازی
+                    </a>                      
+                    {% endif %}
                   </div>
                 </div>
               </div>
@@ -87,21 +153,27 @@ active
             <div class="row">
               <div class="col-md-6">
                 <div class="img-box">
-                  <img src="{% static "images/ss.png" %}" alt="" height="533px">
+                  <img src="{% static "images/ss.png" %}" alt="" class="responsive-img" height="533px">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="detail-box">
-                      <h1>
+                      <h1 class="responsive-title">
                         {{ i.big_title_3 }}
                       </h1>
-                      <p>
+                      <p class="responsive-text">
                         {{ i.small_title_3 }}
                       </p>
                   <div class="btn-box">
+                    {% if request.user.is_authenticated %}
                     <a href="{% url 'Play_App:game' %}" class="btn1">
                       شروع بازی
                     </a>
+                    {% else %}
+                    <a class="btn1" onclick=RegisterNotification()>
+                      شروع بازی
+                    </a>
+                    {% endif %}
                   </div>
                 </div>
               </div>
@@ -214,12 +286,10 @@ active
                               {{ i.main_topic }}
                           </h2>
                       </div>
+                      <br>
                       <p style="text-align: right;">
                           {{ i.guide_text }}
                       </p>
-                      <a href="{% url 'Home_App:about' %}" style="float: right;">
-                          نمایش بیشتر
-                      </a>
                   </div>
               </div>
               <div class="col-md-6">
