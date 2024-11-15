@@ -29,24 +29,22 @@ def game_show(request):
 
     # Find the first available word for the current or previous day that is unlocked
     word = Word.objects.filter(
+        Q(lock_time__isnull=True) | Q(lock_time__lt=timezone.now() - datetime.timedelta(hours=12)),
         user=request.user,
-        day__lte=max_day,  # Only fetch words up to the max day level
-    ).filter(
-        Q(lock_time__isnull=True) | Q(lock_time__lt=timezone.now() - datetime.timedelta(hours=12))  # Check for unlocked words
+        day__lte=max_day,
     ).order_by('day').first()
-    print(word)
 
     # Check if all words have been answered correctly and are within the 12-hour lock period
     all_words_answered = not Word.objects.filter(
+        Q(lock_time__isnull=True) | Q(lock_time__lt=timezone.now() - datetime.timedelta(hours=12)),
         user=request.user,
-        day__lte=max_day,
-        is_correct=False
+        day__lte=max_day
     ).exists()
 
     # If no word is available, prompt user to add a word
     if all_words_answered:
         return render(request, "Play_App/service.html", {
-            'finish_error': 'شما به همه کلمات پاسخ داده‌اید. لطفاً ۱۲ ساعت صبر کنید تا دوباره بتوانید بازی کنید.',
+            'finish_error': 'یک خبر خوب :‌ شما به همه کلمات پاسخ دادید 😍 بازی تا فردا قفل شد 😥',
             'date': date
         })
         
@@ -54,7 +52,7 @@ def game_show(request):
         return render(request, "Play_App/service.html", {
             'daily_error': 'لطفاً ابتدا کلمه‌ای اضافه کنید.',
             'date': date
-        })
+        })     
 
 
 
@@ -91,22 +89,6 @@ def game_show(request):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @csrf_exempt
 @login_required
 def delete_word(request):
@@ -127,23 +109,36 @@ def delete_word(request):
 @login_required
 def add_word_show(request):
     try:
+        # _________ Start can't play game to 12 hours _________ #
         date_get = jdatetime.datetime.now().date()
         date = date_get.strftime("%Y/%m/%d")
+
+        # Find the maximum day that the user has in their words
         max_day = Word.objects.filter(user=request.user).aggregate(max_day=Max('day'))['max_day']
-        
-        # Check if all words have been answered correctly and are within the 12-hour lock period
-        all_words_answered = not Word.objects.filter(
+    
+
+        # Find the first available word for the current or previous day that is unlocked
+        word = Word.objects.filter(
+            Q(lock_time__isnull=True) | Q(lock_time__lt=timezone.now() - datetime.timedelta(hours=12)),
             user=request.user,
             day__lte=max_day,
-            is_correct=False
+        ).order_by('day').first()
+
+        # Check if all words have been answered correctly and are within the 12-hour lock period
+        all_words_answered = not Word.objects.filter(
+            Q(lock_time__isnull=True) | Q(lock_time__lt=timezone.now() - datetime.timedelta(hours=12)),
+            user=request.user,
+            day__lte=max_day
         ).exists()
 
         # If no word is available, prompt user to add a word
         if all_words_answered:
             return render(request, "Play_App/service.html", {
-                'finish_error': 'شما به همه کلمات پاسخ داده‌اید. لطفاً ۱۲ ساعت صبر کنید تا دوباره بتوانید بازی کنید.',
+                'finish_error': 'یک خبر خوب :‌ شما به همه کلمات پاسخ دادید 😍 بازی تا فردا قفل شد 😥',
                 'date': date
             })
+        # _________ End can't play game to 12 hours _________ #    
+            
             
         if request.method == 'POST':
             front_word = request.POST.get('front_word')
@@ -191,8 +186,8 @@ def edit_word(request, id):
         # Get form data
         front_word = request.POST.get('front_word')
         back_word = request.POST.get('back_word')
-        back_word_day = request.POST.get('back_word_day')  # Corrected name of day input field
-        back_word_box = request.POST.get('back_word_box')  # Box value
+        back_word_day = request.POST.get('day')
+        back_word_box = request.POST.get('box')
 
         # Ensure valid integer conversion for back_word_day and back_word_box
         if back_word_day:
@@ -203,16 +198,21 @@ def edit_word(request, id):
         else:
             back_word_day = 1  # Default value if not provided
 
-        # The box should be calculated based on the 'day' value
+        if back_word_box:
+            try:
+                back_word_box = int(back_word_box)
+            except ValueError:
+                back_word_box = 1  # Default value if invalid input
+        else:
+            back_word_box = 1  # Default value if not provided
+
+        # Update the word_info object
         word_info.front_word = front_word
         word_info.back_word = back_word
         word_info.day = back_word_day
-
-        # Use the update_box method to update the box value
-        word_info.update_box()
-
+        word_info.box = back_word_box
         word_info.save()
 
         return redirect('Play_App:game')
 
-    return render(request, 'Play_App/edit_word.html', {'word_info': word_info})
+    return render(request, 'Play_App/edit_word.html', {'word_info': word_info})  
