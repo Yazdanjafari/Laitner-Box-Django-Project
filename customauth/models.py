@@ -36,7 +36,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length=50, verbose_name="نام و نام خانوادگی", help_text="این فیلد باید به فارسی وارد شود")
     gender = models.CharField(max_length=50, null=True, blank=True, verbose_name="جنسیت")
     date_of_birth = jmodels.jDateField(null=True, blank=True, verbose_name="تاریخ تولد")
-    email = models.EmailField(unique=True, blank=True, null=True, verbose_name="ایمیل")
+    email = models.EmailField(blank=True, null=True, verbose_name="ایمیل")
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True, verbose_name="تصویر پروفایل")
     
     # Contact and Address Information
